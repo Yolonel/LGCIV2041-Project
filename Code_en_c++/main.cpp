@@ -9,25 +9,6 @@
 #include "glut.hpp"
 #include "matrix.h"
 
-
-// int main(int argc, char *const argv[])
-// {
-
-//     /*******Initial data for our dimensionless equation******/
-
-//     // We choose the schema and the paremeters
-//     // int choice;
-//     // printf("Choose your problem (1:Q, 2:-Q, 3:Q periodic) \n");
-//     // scanf("%d",&choice);
-
-
-//     // double nx_ny;
-//     // printf("Type the ration between nx and ny \n");
-//     // scanf("%lf",&nx_ny);
-
-//     return 0;
-// }
-
 int main( void ) 
 {
     const double L = 1.0 ;
