@@ -63,7 +63,14 @@ int trussSolver ( int N, int B , int M, double * xy , int * ind ,
 		F[2*N+i] = v[2] ;
 	}
 
+
+
 	printf("solve_linear_system\n");
+	printf("Voici K\n");
+	print_m(K);
+	printf("Voici F\n");
+	print(F,(2*N+M));
+
 	int result = solve_linear_system (K, F , X) ;
 
 	if ( result == 0 ) printf ( "ERROR : the truss is not stable\n" ) ;
@@ -105,3 +112,4 @@ void postPro ( int B , double * xy , int * ind , double *ea , double *x , double
 		n[i] = f[0] * cos(t) + f[1] * sin(t) ;
 	}
 }
+

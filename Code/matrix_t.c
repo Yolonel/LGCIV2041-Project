@@ -75,6 +75,7 @@ int solve_linear_system(matrix_t *K, double *f, double *x)
 		}                 
 
 		p=A[k][k];
+		printf("Voici p : %f\n", p);
 
 		//normalisation 
 		printf("normalisation\n");              
@@ -93,7 +94,35 @@ int solve_linear_system(matrix_t *K, double *f, double *x)
 			 }
 		}
 	}
+	for ( int i=0; i<n; i++) x[i] = f[i] ;
 	return 1;
+
+}
+
+void print_m(matrix_t *K)
+{
+	int n = K->n;
+	int m = K->m;
+	
+	for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j < m; ++j)
+			{
+				printf("%5.1f\t",K->mData[i][j] );
+			}
+			printf("\n");
+		}	
+
+
+}
+
+void print(double *K, int n)
+{
+	
+for (int i = 0; i < n; ++i)
+{
+	printf("%5.1f\n",K[i] );
+}
 
 }
 

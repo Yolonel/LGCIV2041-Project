@@ -49,7 +49,10 @@ int main( void )
     double r[4] ;
     
     int result = trussSolver(N, B ,M, xy , ind , f , nc , vc , ea , x , r ) ;
+    printf("ok mamene :-)\n");
     return result ;
+
+    postPro ( B , xy , ind , ea , x , n);
 }
 
 
