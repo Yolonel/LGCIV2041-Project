@@ -52,6 +52,7 @@ int main( void )
     printf("ok mamene :-)\n");
     return result ;
 
+    double *n = (double*) malloc((B)*sizeof(double)) ;
     postPro ( B , xy , ind , ea , x , n);
 }
 
