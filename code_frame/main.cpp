@@ -43,9 +43,9 @@ int main( void )
     // Resolution of the truss
     int result = trussSolver(N, B ,M, xy , ind , f , nc , vc , ea, ei , x) ;
     
-    printf("u11 = %3.9f \tu12 = %3.9f \ttheta1 = %3.9f \n",x[0],x[1],x[2]);
-    printf("u21 = %3.9f \tu22 = %3.9f \ttheta2 = %3.9f \n",x[3],x[4],x[5]);
-    printf("u31 = %3.9f \tu32 = %3.9f \ttheta3 = %3.9f \n",x[6],x[7],x[8]);
+    printf("u11 = %3.9f \tu12 = %3.9f \ttheta1 = %3.9f \n",x[0],x[1],x[2]*180/M_PI);
+    printf("u21 = %3.9f \tu22 = %3.9f \ttheta2 = %3.9f \n",x[3],x[4],x[5]*180/M_PI);
+    printf("u31 = %3.9f \tu32 = %3.9f \ttheta3 = %3.9f \n",x[6],x[7],x[8]*180/M_PI);
     
     return result;
 }
