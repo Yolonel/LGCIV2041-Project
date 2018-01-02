@@ -12,14 +12,14 @@ all: $(EXEC)
 $(EXEC): $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-glut.o: glut.cpp glut.hpp matrix.h
+fonction.o: fonction.cpp fonction.hpp matrix_t.h
 	$(CC) -o $@ -cpp $< $(CFLAGS)
 	
 	
-main.o: main.cpp glut.hpp matrix.h
+main.o: main.cpp fonction.hpp matrix_t.h
 	$(CC) -o $@ -cpp $< $(CFLAGS)
 
-matrix.o: matrix.cpp matrix.h
+matrix_t.o: matrix_t.cpp matrix_t.h
 	$(CC) -o $@ -cpp $< $(CFLAGS)
 
 

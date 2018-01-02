@@ -3,9 +3,11 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
-#include "matrix.h"
-#include "glut.hpp"
+#include "matrix_t.hpp"
+#include "fonction.hpp"
 
+
+// StiffnessMatrix computes of the stiffness matrix of a bar
 void stiffnessMatrix (double x1, double y1, double x2, double y2, double ea , double k[4][4])
 {
   double t = atan2(y2-y1,x2-x1);
@@ -21,6 +23,9 @@ void stiffnessMatrix (double x1, double y1, double x2, double y2, double ea , do
   k[3][0] = k[0][3] = k[2][1] = k[1][2] = -s*c*f;
 }
 
+
+// TrussSolver computes all the displacements [*x]
+// and the reaction forces [*r] corresponding to the constraints
 void postPro (int B, double *xy, int *ind, 
 	     double *ea, double *x, double *n) {
   double stiff [4][4];
@@ -31,32 +36,25 @@ void postPro (int B, double *xy, int *ind,
     stiffnessMatrix ( xy[indx[0]], xy[indx[1]], 
                       xy[indx[2]], xy[indx[3]], ea[i] , stiff );
     double f [4] = {0,0,0,0};
-    for (int j=0;j<4;j++) {
-      for (int k=0;k<4;k++) {
-	f[j] += stiff[j][k] * x[indx[k]];  
+    for (int j=0;j<4;j++) 
+    {
+      for (int k=0;k<4;k++) 
+      {
+		f[j] += stiff[j][k] * x[indx[k]];  
       }
     }
     double t = atan2( xy[indx[1]]- xy[indx[3]], xy[indx[0]]- xy[indx[2]]);
     n[i] = f[0] * cos(t) + f[1] * sin(t);
-    double l2 = sqrt((xy[indx[1]]+x[indx[1]]- xy[indx[3]]-x[indx[3]])*
-		     (xy[indx[1]]+x[indx[1]]- xy[indx[3]]-x[indx[3]])+
-		     (xy[indx[0]]+x[indx[0]]- xy[indx[2]]-x[indx[2]])*
-		     (xy[indx[0]]+x[indx[0]]- xy[indx[2]]-x[indx[2]]));
-    double l1 = sqrt((xy[indx[1]]- xy[indx[3]])*(xy[indx[1]]- xy[indx[3]])+
-		     (xy[indx[0]]- xy[indx[2]])*(xy[indx[0]]- xy[indx[2]]));
-    double dl = l2 - l1;
-    double eps = dl / l1;
-    double N = eps*ea[i];
-    
-    printf("n[%d] = %g N = %g\n",i,n[i],N);
   }
 }
 
+
+// PostPro computes normal efforts in all bars
 int trussSolver (int N, int B, int M, double *xy, int *ind, 
                  double *f, int *nc, double *vc, double *ea,  
                  double *x, double *r) {
   double stiff [4][4];
-  matrix_t *K = create_matrix (2*N+M, 2*N+M);
+  matrix_t *K = create_matrix(2*N+M, 2*N+M);
   double *F = (double*) malloc ((2*N+M)*sizeof(double));
   double *X = (double*) malloc ((2*N+M)*sizeof(double));
   for (int i=0;i<B;i++){
@@ -84,7 +82,7 @@ int trussSolver (int N, int B, int M, double *xy, int *ind,
     printf("ERROR : the truss is not stable\n");
   }
   for (int i=0;i<2*N;i++) x[i] = X[i];
-  for (int i=0;i<M;i++) {r[i] = X[2*N+i];printf("r(%d) = %g\n",i,r[i]);}
+  for (int i=0;i<M;i++) {r[i] = X[2*N+i];}
 
   delete_matrix(K);
   free(F);
