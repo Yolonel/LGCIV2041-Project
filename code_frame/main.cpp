@@ -41,8 +41,17 @@ int main( void )
     double x[3*N] ; // Displacements and orientation at nodes
      
     // Resolution of the truss
-    int result = trussSolver(N, B ,M, xy , ind , f , nc , vc , ea, ei , x) ;
+    int result = frameSolver(N, B ,M, xy , ind , f , nc , vc , ea, ei , x);
+
+    // Normal effort of each bars
+    double n[B];
+    if (result == true)
+    {
+    	postPro(B ,xy , ind, ea, ei,  x, n);
+    }
     
+    printf("n1 = %3.9f \tn2 = %3.9f \n",n[0],n[1]);
+
     printf("u11 = %3.9f \tu12 = %3.9f \ttheta1 = %3.9f \n",x[0],x[1],x[2]*180/M_PI);
     printf("u21 = %3.9f \tu22 = %3.9f \ttheta2 = %3.9f \n",x[3],x[4],x[5]*180/M_PI);
     printf("u31 = %3.9f \tu32 = %3.9f \ttheta3 = %3.9f \n",x[6],x[7],x[8]*180/M_PI);

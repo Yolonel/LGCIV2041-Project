@@ -74,7 +74,7 @@ void stiffnessMatrix (double x1, double y1, double x2, double y2, double ea, dou
 }
 
 
-int trussSolver (int N, int B, int M, double *xy, int *ind, 
+int frameSolver (int N, int B, int M, double *xy, int *ind, 
                  double *f, int *nc, double *vc, double *ea,  
                  double *ei, double *x) {
   double stiff [6][6];
@@ -112,4 +112,62 @@ int trussSolver (int N, int B, int M, double *xy, int *ind,
   free(X);
   return result;
 }
+
+// void postPro (int B, double *xy, int *ind, 
+// 	     double *ea, double *ei, double *x, double *n) {
+//   double stiff [6][6];
+//   double stiffn [4][4];
+//   for (int i=0;i<B;i++)
+//   {
+//     int n1 = ind[2*i];   
+//     int n2 = ind[2*i+1];
+//     int indx[4] = {3*n1,3*n1+1,3*n2,3*n2+1};
+//     stiffnessMatrix ( xy[2*n1], xy[2*n1+1], 
+//                       xy[2*n2], xy[2*n2+1], ea[i] , ei[i] , stiff );
+//     for (int j=0;j<4;j++)
+//     {
+//     	for (int k=0;k<4;k++)
+//     	{
+//     		int jn = (j==2)*3 + (j==3)*4 + (j==0 || j==1)*j;
+//     		int kn = (k==2)*3 + (k==3)*4 + (k==0 || k==1)*k;
+//     		stiffn[j][k] = stiff[jn][kn];
+//     	}
+//     }
+//     double f [4] = {0,0,0,0};
+//     for (int j=0;j<4;j++) 
+//     {
+//       for (int k=0;k<4;k++) 
+//       {
+// 		f[j] += stiffn[j][k] * x[indx[k]];  
+//       }
+//     }
+//     double t = atan2( xy[2*n1+1]- xy[2*n2+1], xy[2*n1]- xy[2*n2]);
+//     n[i] = f[0] * cos(t) + f[1] * sin(t);
+//   }
+// }
+
+void postPro (int B, double *xy, int *ind, 
+	     double *ea, double *ei, double *x, double *n) {
+  double stiff [6][6];
+  for (int i=0;i<B;i++)
+  {
+    int n1 = ind[2*i];   
+    int n2 = ind[2*i+1];
+    int indx[6] = {3*n1,3*n1+1,3*n1+2,3*n2,3*n2+1,3*n2+2};
+    stiffnessMatrix ( xy[2*n1], xy[2*n1+1], 
+                      xy[2*n2], xy[2*n2+1], ea[i] , ei[i] , stiff );
+    double f [6] = {0,0,0,0,0,0};
+    for (int j=0;j<6;j++) 
+    {
+      for (int k=0;k<6;k++) 
+      {
+		f[j] += stiff[j][k] * x[indx[k]];  
+      }
+    }
+    double t = atan2( xy[2*n1+1]- xy[2*n2+1], xy[2*n1]- xy[2*n2]);
+    n[i] = f[0] * cos(t) + f[1] * sin(t);
+  }
+}
+
+
 

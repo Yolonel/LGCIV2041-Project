@@ -51,5 +51,6 @@ int main( void )
     	postPro(B, xy, ind, ea, x, n);
     }
     
+    printf("n1 = %3.9f \tn2 = %3.9f \n",n[0],n[1]);
     return result;
 }
