@@ -100,7 +100,6 @@ int trussSolver (int N, int B, int M, double *xy, int *ind,
     add_to_matrix(K,indx[0],3*N+i, v[0]/norm);
     add_to_matrix(K,indx[1],3*N+i, v[1]/norm);
     F[3*N+i] = v[2];
-    printf("%f\n",norm);
   }
   bool result = solve_linear_system (K, F, X);
   if (result == false){
